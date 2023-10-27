@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task List</title>
+</head>
+<body>
+  <h2><a href="{% url 'create_task' %}">Create</a></h2>
+  <h2 style="text-align: center;">Tasks</h2>
+  {% for task in tasks %}
+  <div style="margin: 0 auto; width: 300px; margin-bottom: 20px; border: 2px solid red; text-align: center">
+      <h3>{{ task.title }}</h3>
+      <p>{{ task.description }}</p>
+      <p>Created: {{ task.creation_date }}</p>
+      <p>Deadline: {{ task.deadline_date }}</p>
+      <p>Priority: {{ task.priority }}</p>
+      <form method="POST" action="{% url 'complete_task' task.pk %}">
+          {% csrf_token %}
+          <input style="margin-bottom: 10px;" type="submit" value="Completed">
+      </form>
+      <button><a href="{% url 'edit_task' task.pk %}">Edit</a></button>
+      <button><a href="{% url 'delete_task' task.pk %}">Delete</a></button>
+  </div>
+  {% endfor %}
+
+  <h2 style="text-align: center; margin-top: 30px;">Completed tasks</h2>
+  {% for task in completed_tasks %}
+  <div style="margin: 0 auto; width: 300px; margin-bottom: 20px; border: 2px solid green; text-align: center">
+      <h3>{{ task.title }}</h3>
+      <p>{{ task.description }}</p>
+      <p>Created: {{ task.creation_date }}</p>
+      <p>Deadline: {{ task.deadline_date }}</p>
+      <p>Priority: {{ task.priority }}</p>
+  </div>
+  {% endfor %}
+</body>
+</html>
